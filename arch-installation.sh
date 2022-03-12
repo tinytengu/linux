@@ -27,7 +27,7 @@ arch-chroot /mnt
 passwd
 
 # Install base packages
-pacman -S networkmanager grub os-prober git sudo neofetch zsh go
+pacman -S networkmanager grub os-prober git sudo neofetch go
 
 # Enable network service
 systemctl enable NetworkManager
@@ -53,11 +53,15 @@ echo "tengu:tengu" | chpasswd
 usermod --append --groups wheel tengu
 visudo (find and uncomment "%wheel ALL=(ALL) ALL" under "User privilege specification" block)
 
-# Install other packages
+# Install yay for the user
 su - tengu
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
+
+# Setup ZSH
+yay -S zsh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Exit & reboot
 exit
